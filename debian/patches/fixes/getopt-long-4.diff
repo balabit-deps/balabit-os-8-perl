@@ -1,0 +1,28 @@
+From: Johan Vromans <jvromans@squirrel.nl>
+Date: Tue, 13 Jun 2017 13:26:00 +0200
+Subject: Fix issue #122068.
+
+Origin: backport, https://github.com/sciurius/perl-Getopt-Long/commit/2d16f355e25537aa742eb2833a7d52a63051429b
+Bug: https://rt.cpan.org/Ticket/Display.html?id=122068
+Bug-Debian: https://bugs.debian.org/864544
+---
+ cpan/Getopt-Long/lib/Getopt/Long.pm | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/cpan/Getopt-Long/lib/Getopt/Long.pm b/cpan/Getopt-Long/lib/Getopt/Long.pm
+index 664c8b6..e4e3026 100644
+--- a/cpan/Getopt-Long/lib/Getopt/Long.pm
++++ b/cpan/Getopt-Long/lib/Getopt/Long.pm
+@@ -1123,6 +1123,12 @@ sub FindOption ($$$$$) {
+ 	    $optargtype = 3;
+ 	}
+ 	if(($optargtype == 0) && !$mand) {
++	    if ( $type eq 'I' ) {
++		# Fake incremental type.
++		my @c = @$ctl;
++		$c[CTL_TYPE] = '+';
++		return (1, $opt, \@c, 1);
++	    }
+ 	    my $val
+ 	      = defined($ctl->[CTL_DEFAULT]) ? $ctl->[CTL_DEFAULT]
+ 	      : $type eq 's'                 ? ''

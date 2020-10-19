@@ -1,0 +1,8 @@
+#!/bin/sh
+# This is normally inherited from debian/rules
+# but just in case somebody calls us directly
+archtriplet=${archtriplet:-$(dpkg-architecture -qDEB_HOST_MULTIARCH)}
+
+exec cat <<EOF
+build-static/libperl.a usr/lib/$archtriplet/
+EOF

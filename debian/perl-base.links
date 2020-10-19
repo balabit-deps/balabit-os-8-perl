@@ -1,0 +1,8 @@
+#!/bin/sh
+# This is normally inherited from debian/rules
+# but just in case somebody calls us directly
+fullversion=${fullversion:-$(bash debian/config.debian --full-version)}
+
+exec cat <<EOF
+usr/share/man/man1/perl.1 usr/share/man/man1/perl$fullversion.1
+EOF

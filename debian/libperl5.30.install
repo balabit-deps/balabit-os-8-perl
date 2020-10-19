@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# These are normally inherited from debian/rules
+# but just in case somebody calls us directly
+fullversion=${fullversion:-$(bash debian/config.debian --full-version)}
+archtriplet=${archtriplet:-$(dpkg-architecture -qDEB_HOST_MULTIARCH)}
+
+exec cat <<EOF
+usr/lib/$archtriplet/perl
+usr/lib/$archtriplet/libperl.so.$fullversion
+usr/bin/perl
+usr/bin/cpan
+debian/cross/README usr/lib/$archtriplet/perl/debian-config-data-$fullversion
+debian/errno.ph usr/lib/$archtriplet/perl/$fullversion
+EOF
